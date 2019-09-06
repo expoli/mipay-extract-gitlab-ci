@@ -8,7 +8,7 @@ stages:
   - dwonload_rom
   - extract
 
-image: tangcuyu/mipay-extract:latest
+image: tangcuyu/mipay-extracter-centos:latest
 
 cache:
   paths:
