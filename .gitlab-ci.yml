@@ -13,21 +13,20 @@ image: tangcuyu/mipay-extracter-centos:latest
 cache:
   paths:
     - $BUILD_DIR/*
+    - mipay-extract-master/
+    - master.zip
+    - miui*.zip
 
 get-mipay-extract:
   stage: git_clone_refs
   only:
     refs:
       - dev
-#   cache:
-#     paths:
-#       - $BUILD_DIR
+
   script:
     - echo "git clone https://github.com/linusyang92/mipay-extract.git ..."
-    # - bash ./shell-script/installation_dependency.sh
-    - mkdir -p $BUILD_DIR
-    - rm $BUILD_DIR/* -rf
-    - git clone https://github.com/linusyang92/mipay-extract.git
+    - ls $BUILD_DIR || wget -c -nv --tries=40 -w 10 -T 10 --user-agent="Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Mobile Safari/537.36" https://github.com/linusyang92/mipay-extract/archive/master.zip || unzip master.zip
+    - ls $BUILD_DIR || unzip master.zip || tree
 
 dwonload-rom:
   stage: dwonload_rom
@@ -38,7 +37,7 @@ dwonload-rom:
     - echo "download china-dev rom..."
     - pwd && ls -al
     - cd $BUILD_DIR && ls al && pwd
-    - wget $CHINA_DEV_ROM_URL
+    - cd $BUILD_DIR && ls miui_*.zip || wget -c -nv --tries=40 -w 10 -T 10 --user-agent="Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Mobile Safari/537.36" "$CHINA_DEV_ROM_URL" || ls -al
     
 extract-mipay:
   stage: extract
@@ -49,9 +48,9 @@ extract-mipay:
     - echo "extracting mipay..."
     - pwd && ls -al
     - mkdir -p $MIPAY_ZIP_DIR && ls -al && pwd
-    - cd $BUILD_DIR && ls al && pwd
-    - pwd && ./extract.sh
-    - ls -al && cp $(ls | grep mipay-*.zip) ../$MIPAY_ZIP_DIR/ && ls -al
+    - cd $BUILD_DIR && ls -al && pwd
+    - ls -al && pwd && ./extract.sh
+    - ls -al && cp $(ls | grep mipay-*.zip) ../$MIPAY_ZIP_DIR/
 
   artifacts:
     paths:
