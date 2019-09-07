@@ -13,9 +13,8 @@ image: tangcuyu/mipay-extracter-centos:latest
 cache:
   paths:
     - $BUILD_DIR/*
-    - mipay-extract-master/
-    - master.zip
-    - miui*.zip
+    # - mipay-extract-master/
+    # - master.zip
 
 get-mipay-extract:
   stage: git_clone_refs
@@ -44,9 +43,11 @@ extract-mipay:
   only:
     refs:
       - dev
+  cache:
+    paths:
+      - $MIPAY_ZIP_DIR/*
   script:
     - echo "extracting mipay..."
-    - pwd && ls -al
     - mkdir -p $MIPAY_ZIP_DIR && ls -al && pwd
     - cd $BUILD_DIR && ls -al && pwd
     - ls -al && pwd && ./extract.sh
