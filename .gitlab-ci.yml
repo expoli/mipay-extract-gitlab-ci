@@ -35,8 +35,8 @@ dwonload-rom:
   script:
     - echo "download china-dev rom..."
     - pwd && ls -al
-    - cd $BUILD_DIR && ls al && pwd
-    - cd $BUILD_DIR && ls miui_*.zip || wget -c -nv --tries=40 -w 10 -T 10 --user-agent="Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Mobile Safari/537.36" "$CHINA_DEV_ROM_URL" || ls -al
+    - cd $BUILD_DIR && ls -al && pwd
+    - ls miui_*.zip || wget -c -nv --tries=40 -w 10 -T 10 --user-agent="Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Mobile Safari/537.36" "$CHINA_DEV_ROM_URL" || ls -al
     
 extract-mipay:
   stage: extract
